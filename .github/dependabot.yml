@@ -10,3 +10,7 @@ updates:
       separator: "-"
     open-pull-requests-limit: 99
     rebase-strategy: disabled
+  - package-ecosystem: bundler
+    directory: "/"
+    schedule:
+      interval: weekly
