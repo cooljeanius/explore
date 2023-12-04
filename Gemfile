@@ -3,6 +3,7 @@ source "https://rubygems.org"
 gem "github-pages", group: :jekyll_plugins
 
 group :test do
+  gem "faraday-retry"
   gem "fastimage"
   gem "httparty"
   gem "minitest"
