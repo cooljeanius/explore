@@ -12,6 +12,7 @@ group :test do
   gem "rubocop"
   gem "rubocop-performance"
   gem "safe_yaml"
+  gem "faraday-retry"
 end
 
 group :development do
