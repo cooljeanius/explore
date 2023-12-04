@@ -49,7 +49,7 @@ jobs:
           (matrix.test_type == 'topics' && steps.topics.outputs.changed) ||
           (matrix.test_type == 'collections' && steps.collections.outputs.changed) ||
           (matrix.test_type == 'all' && steps.all.outputs.changed)
-        run: bundle exec rake ${{ matrix.test_type }} || (if test -x "$(which rake)"; then rake --trace ${{ matrix.test_type }}; else (echo "Error, rake missing!" >&2 && exit 1); fi) || (ruby -cwv Gemfile && ruby -cwv Rakefile) || (ruby -c Gemfile && ruby -c Rakefile)
+        run: bundle exec rake ${{ matrix.test_type }} || bundle exec rake --trace ${{ matrix.test_type }} || (if test -x "$(which rake)"; then rake --trace ${{ matrix.test_type }}; else (echo "Error, rake missing!" >&2 && exit 1); fi) || (ruby -cwv Gemfile && ruby -cwv Rakefile) || (ruby -c Gemfile && ruby -c Rakefile)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TOPIC_FILES: ${{ steps.topics.outputs.changed }}
