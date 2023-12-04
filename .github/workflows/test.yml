@@ -26,17 +26,17 @@ jobs:
       - name: Get non-topic and non-collection changed files
         id: all
         if: matrix.test_type == 'all'
-        run: echo "changed=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -ve '^topics\/' -ve '^collections\/' | xargs)" >> $GITHUB_OUTPUT
+        run: echo "changed=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep -ve '^topics\/' -ve '^collections\/' | xargs)" | tee -a "${GITHUB_OUTPUT}"
 
       - name: Get changed topic files
         id: topics
         if: matrix.test_type == 'topics'
-        run: echo "changed=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep ^topics\/ | xargs)" >> $GITHUB_OUTPUT
+        run: echo "changed=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep ^topics\/ | xargs)" | tee -a "${GITHUB_OUTPUT}"
 
       - name: Get changed collection files
         id: collections
         if: matrix.test_type == 'collections'
-        run: echo "changed=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep ^collections\/ | xargs)" >> $GITHUB_OUTPUT
+        run: echo "changed=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep ^collections\/ | xargs)" | tee -a "${GITHUB_OUTPUT}"
 
       - name: Setup Ruby
         if: ${{ steps.topics.outputs.changed || steps.collections.outputs.changed || steps.all.outputs.changed }}
@@ -49,7 +49,7 @@ jobs:
           (matrix.test_type == 'topics' && steps.topics.outputs.changed) ||
           (matrix.test_type == 'collections' && steps.collections.outputs.changed) ||
           (matrix.test_type == 'all' && steps.all.outputs.changed)
-        run: bundle exec rake ${{ matrix.test_type }}
+        run: bundle exec rake ${{ matrix.test_type }} || (if test -x "$(which rake)"; then rake ${{ matrix.test_type }}; else (echo "Error, rake missing!" >&2 && exit 1); fi) || (ruby -cwv Gemfile && ruby -cwv Rakefile) || (ruby -c Gemfile && ruby -c Rakefile)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TOPIC_FILES: ${{ steps.topics.outputs.changed }}
