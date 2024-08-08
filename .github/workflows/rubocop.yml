@@ -44,7 +44,8 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get -qq update
-        sudo apt-get -y install ruby-github-pages-health-check jekyll ruby-jekyll-mentions ruby-pygments.rb libyajl-dev yajl-tools ruby-yajl ruby-ffi-yajl
+        sudo apt-get -y install ruby-github-pages-health-check jekyll ruby-jekyll-mentions ruby-pygments.rb \
+          libyajl-dev yajl-tools ruby-yajl ruby-ffi-yajl libgmp-dev ruby-jekyll-test-plugin rubocop
         bundle install
 
     - name: Rubocop run
