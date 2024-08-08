@@ -42,7 +42,10 @@ jobs:
       run: bundle add code-scanning-rubocop --version 0.3.0 --skip-install
 
     - name: Install dependencies
-      run: bundle install
+      run: |
+        sudo apt-get -qq update
+        sudo apt-get -y install ruby-github-pages-health-check jekyll ruby-jekyll-mentions ruby-pygments.rb libyajl-dev yajl-tools ruby-yajl ruby-ffi-yajl
+        bundle install
 
     - name: Rubocop run
       run: |
