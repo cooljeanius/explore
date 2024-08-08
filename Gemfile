@@ -18,3 +18,5 @@ end
 group :development do
   gem "webrick"
 end
+
+gem "code-scanning-rubocop", "~> 0.3.0"
