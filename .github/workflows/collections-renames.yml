@@ -6,6 +6,10 @@ on:
   schedule:
     - cron: "0 * * * *"  # every hour
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -26,8 +30,8 @@ jobs:
         with:
           EXECUTE_COMMANDS: |
             bundle exec rake collections
-          COMMIT_MESSAGE: '✨ Autofixing renamed/removed collection items ✨'
+          COMMIT_MESSAGE: 'Autofixing renamed/removed collection items'
           COMMIT_NAME: 'GitHub Actions'
           COMMIT_EMAIL: 'actions@github.com'
           PR_BRANCH_NAME: 'update-collections-${PR_ID}'
-          PR_TITLE: '✨ Autofixing renamed/removed collection items ✨'
+          PR_TITLE: 'Autofixing renamed/removed collection items'
