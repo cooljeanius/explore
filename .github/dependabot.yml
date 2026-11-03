@@ -4,18 +4,16 @@ updates:
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
-      interval: daily
-      time: "10:00"
-      timezone: Europe/Vienna
+      interval: monthly
     pull-request-branch-name:
       separator: "-"
-    open-pull-requests-limit: 99
+    open-pull-requests-limit: 9
     rebase-strategy: disabled
     cooldown:
       default-days: 7
   - package-ecosystem: bundler
     directory: "/"
     schedule:
-      interval: weekly
+      interval: monthly
     cooldown:
       default-days: 7
